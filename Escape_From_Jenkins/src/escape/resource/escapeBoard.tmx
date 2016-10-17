@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="26" tilewidth="32" tileheight="32" nextobjectid="78">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32" tilecount="25" columns="5">
+  <image source="grass.png" width="185" height="185"/>
+ </tileset>
+ <tileset firstgid="26" name="water" tilewidth="32" tileheight="32" tilecount="25" columns="5">
+  <image source="water.png" width="185" height="185"/>
+ </tileset>
+ <tileset firstgid="51" name="hedge corners" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="hedge corners.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="55" name="hedge vert" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="hvert.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="59" name="hedge horoz" tilewidth="32" tileheight="32" tilecount="6" columns="2">
+  <image source="hhoroz.png" width="64" height="96"/>
+ </tileset>
+ <tileset firstgid="65" name="gnome" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="gnome.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="66" name="plane" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="Plane.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="67" name="OMJStartLocation" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="WelcomeMat.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="68" name="StartEndTile" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="exitZone.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="69" name="cat" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="cats.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="70" name="logs" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="logs.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="74" name="pdog" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="pdog.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="75" name="pdLogo" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="pdLogo.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="76" name="kid" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="kid.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="77" name="Old Man Jenkins" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="OldManJenkins.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="78" name="Scruffy" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="Scruffy.png" width="32" height="33"/>
+ </tileset>
+ <tileset firstgid="79" name="rb" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="rb.png" width="32" height="32"/>
+ </tileset>
+ <layer name="Base" width="21" height="26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC7WU2w6CMAyGpwY0UbyVeYhnE9Srvf/D+RMhWZq2KxlcfAmspV3/tpTOOQ+KBLXBrxbOH+AJXiCAOVgQn9BxBhdi85H9Bu7RuwTNGZgcjeCzBwdwBCfwNuSz0Oe9Ju5N/RrjHT7gq9jjOLNI353S0yVYKfai6+VasNGZaP02oDL6arMlzVt/J+55DDg96JmmWUrPKeBySj3LqU2Lof0/thPqZK0zpt0P7j+VQ+n++5Tbw1Q9Ft18oh9TQHfeskfa956ccTMkxalGrp+LJdVi6U9KB4uWQ/LlzNOQ+JLvD3pETEOICAAA
+  </data>
+ </layer>
+ <layer name="WaterCollision" width="21" height="26" visible="0" opacity="0.71">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoD3wR8PkqEGXH8WU4VEwCkbBKBgFo2AwAAAc4ScTiAgAAA==
+  </data>
+ </layer>
+ <layer name="OMJStart" width="21" height="26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwnIHzQDtgFIwCPAAAvpPEeYgIAAA=
+  </data>
+ </layer>
+ <layer name="StartEndTile" width="21" height="26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwCkbBKKA/cAFiAAczB0iICAAA
+  </data>
+ </layer>
+ <layer name="Maze lvl1" width="21" height="26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2SXQrAIAyDvdN0TnR6/1tNoUIo9WevWz8oShJL5zRGUf7FUSvVskwrpEeqQivmMvgRfE/+BVncc/zE635YZDLN2+tc5MNGz7fwOXEmK55YZ70Z30/TpfuXCGw/67mjcb31dDDHTXr7LulfOMj0HL61MjinKF/nARRE4OCICAAA
+  </data>
+ </layer>
+ <layer name="Gnomes lvl1" width="21" height="26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEAAo4D7YBRQBCMxhF5gNRwo2c4AwDmysm3iAgAAA==
+  </data>
+ </layer>
+ <layer name="Plane" width="21" height="26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgIA44EaluFIyCUTAKRsEoGAWjgFgAALJ2OIeICAAA
+  </data>
+ </layer>
+ <layer name="Maze lvl2" width="21" height="26" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+1TWw6AIAzbnRQJ+Lj/scQPYtM4EQKJH2vSr7LSsSFiMPTBlLgCd9AO0t6Y62Ji6JwxgGcp0wx1kXpBDT2/3J/hSfN0bpTnphB7cnK/w0KeqJVytsxvpKe2n070PbzwtCs1M6rJiVla/xCS52cw/A0n8hT3k4gIAAA=
+  </data>
+ </layer>
+ <layer name="Gnomes lvl2" width="21" height="26" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwCgYXcKSS+CiAgMEcngAbodUTiAgAAA==
+  </data>
+ </layer>
+ <layer name="Maze lvl3" width="21" height="26" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+1TWwqAMAzrndx8P+5/Kx0sGLKNKfq5QBH7TE01a2j4B/tlx2UL2ZbJCX5Hvi76Vql1UjtU5nN8rOTM9I55zB28p0yPLnJ1koNnaTbg7d51jYbZvfSq7fwG6Okt3Ve12i3Vg/ki9wu/Um3wz4UY82PdwMdbXs/J7v2xG+J6Z0/BPRXKQ79l7tYCxlhb4vbHPeh9eku1Z561f7qh4StO60SMtIgIAAA=
+  </data>
+ </layer>
+ <layer name="Gnomes lvl3" width="21" height="26" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwCgYncCRRnJAcNQGpbiPHL9QGg9FtAID/s0GICAAA
+  </data>
+ </layer>
+</map>
