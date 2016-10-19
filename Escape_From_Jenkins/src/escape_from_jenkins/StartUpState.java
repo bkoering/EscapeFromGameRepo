@@ -17,7 +17,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 class StartUpState extends BasicGameState {
 	TiledMap map; 
-	int Base, WaterCollision, MazeLVL1;
+	int Base, Gnome, Plane, Maze, WaterCollision, MazeLVL1;
 
 
 	@Override
@@ -27,8 +27,9 @@ class StartUpState extends BasicGameState {
 		//System.out.println("Did this get hit?");
 
 		try{
-//			map = new TiledMap("escape/resource/escapeBoard.tmx");
-			map = new TiledMap("/Escape_From_Jenkins/src/escape/resource/testBoard.tmx");
+			map = new TiledMap("src/escape/resource/GBlvl1.tmx");
+
+
 
 			} 
 		catch (SlickException e){
@@ -36,8 +37,11 @@ class StartUpState extends BasicGameState {
 			System.out.println("Slick Exception Error: map failed to load");
 
 		}
-//		Base = map.getLayerIndex("Base");
-		Base = map.getLayerIndex("Tile Layer 1");
+		Base = map.getLayerIndex("Base");
+		Gnome = map.getLayerIndex("gnome");
+		Maze = map.getLayerIndex("maze");
+		Plane = map.getLayerIndex("plane");
+
 	}
 	
 	@Override
@@ -49,8 +53,11 @@ class StartUpState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics g) throws SlickException {
-		 		//map.render(0, 0, grassLayer);
  				map.render(0, 0, Base);
+ 				map.render(0, 0, Gnome);
+ 				map.render(0, 0, Plane);
+ 				map.render(0, 0, Maze);
+
 
 	
 	}

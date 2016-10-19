@@ -35,8 +35,7 @@ public class EscapeGame extends StateBasedGame {
 		public static final int PLAYINGSTATE = 1;
 		public static final int GAMEOVERSTATE = 2;
 		
-//		public static final String GAME_BOARD = "escape/resource/escapeBoard.tmx";
-//		public static final String GRASS_TILE = "escape/resource/grass";
+		//public static final String GAME_BOARD = "src/escape/resource/escapeBoard.tmx";
 
 		public final int ScreenWidth;
 		public final int ScreenHeight;
@@ -65,7 +64,6 @@ public class EscapeGame extends StateBasedGame {
 			addState(new StartUpState());
 			// pre-load resources 
 			//tileSet = new Tile[21][26];
-			//ResourceLoader.getResourceAsStream(GAME_BOARD);
 			
 //			try{
 //
@@ -102,10 +100,12 @@ public class EscapeGame extends StateBasedGame {
 		public static void main(String[] args) {
 			AppGameContainer app;
 			try {
-				app = new AppGameContainer(new EscapeGame("EFOMJ", 672, 832));
-				app.setDisplayMode(832, 672, false);
+				app = new AppGameContainer(new EscapeGame("EFOMJ", 672, 704));
+				app.setDisplayMode(672, 704, false);
 				app.setVSync(true);
 				app.start();
+			
+				//app.setDisp
 				
 			} catch (SlickException e) {
 				e.printStackTrace();
