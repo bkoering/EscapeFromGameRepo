@@ -12,6 +12,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
+import escape_from_jenkins.EscapeGame;
+
 import org.newdawn.slick.tiled.TiledMap;
 
 
@@ -24,12 +26,9 @@ class StartUpState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		
-		//System.out.println("Did this get hit?");
-
+		//load lvl1 map
 		try{
 			map = new TiledMap("src/escape/resource/GBlvl1.tmx");
-
-
 
 			} 
 		catch (SlickException e){
@@ -37,6 +36,7 @@ class StartUpState extends BasicGameState {
 			System.out.println("Slick Exception Error: map failed to load");
 
 		}
+		//grab map layers
 		Base = map.getLayerIndex("Base");
 		Gnome = map.getLayerIndex("gnome");
 		Maze = map.getLayerIndex("maze");
@@ -53,22 +53,49 @@ class StartUpState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics g) throws SlickException {
- 				map.render(0, 0, Base);
- 				map.render(0, 0, Gnome);
- 				map.render(0, 0, Plane);
- 				map.render(0, 0, Maze);
-
+		
+			EscapeGame eg = (EscapeGame)game;
+		
+ 			map.render(0, 0, Base);
+ 			map.render(0, 0, Gnome);
+ 			map.render(0, 0, Plane);
+ 			map.render(0, 0, Maze);
+ 			
+ 			for (int i =0; i<4; i++)
+ 			{
+ 				eg.cat[i].render(g);
+ 			}
 
 	
 	}
 
+	
 	@Override
 	public void update(GameContainer container, StateBasedGame game,
 			int delta) throws SlickException {
+		Input input = container.getInput();
+		EscapeGame eg = (EscapeGame)game;
+			
 
-		
-		
-	}
+		for (int i =0; i<2; i++)
+		{
+			if (eg.cat[i].getX()>672)
+			{
+				eg.cat[i].setPosition(-16, 624);
+			}
+			
+			eg.cat[i].update(delta);	
+		}
+		for (int i =2; i<4; i++)
+		{
+			if (eg.cat[i].getX()<-16)
+			{
+				eg.cat[i].setPosition(672, 556);//565
+			}
+			
+			eg.cat[i].update(delta);
+		}
+	}//end of update function
 
 	@Override
 	public int getID() {

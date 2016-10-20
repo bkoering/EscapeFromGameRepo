@@ -1,6 +1,5 @@
 package escape_from_jenkins;
 import java.util.ArrayList;
-//import slick.jar;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -10,19 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.util.ResourceLoader;
 
-import escape_from_jenkins.StartUpState;
-
 import org.newdawn.slick.tiled.TiledMap;
-
-
-//import bounce.BounceGame;
-//import bounce.Ball;
-//import bounce.Bang;
-//import bounce.Bar;
-//import bounce.Block;
-//import bounce.GameOverState;
-//import bounce.PlayingState;
-//import bounce.StartUpState;
 import jig.Entity;
 import jig.ResourceManager;
 
@@ -30,16 +17,20 @@ public class EscapeGame extends StateBasedGame {
 
 		private TiledMap map; 
 		int Base, WaterCollision, MazeLVL1;
+		int i,j;
 		
 		public static final int STARTUPSTATE = 0;
 		public static final int PLAYINGSTATE = 1;
 		public static final int GAMEOVERSTATE = 2;
 		
 		//public static final String GAME_BOARD = "src/escape/resource/escapeBoard.tmx";
+		public static final String CAT_IMG = "escape/resource/cats.png";
+
 
 		public final int ScreenWidth;
 		public final int ScreenHeight;
 		//Tile[][] tileSet;
+		Cat cat[];
 		
 
 		public EscapeGame(String title, int width, int height) {
@@ -63,6 +54,35 @@ public class EscapeGame extends StateBasedGame {
 			
 			addState(new StartUpState());
 			// pre-load resources 
+			ResourceManager.loadImage(CAT_IMG);
+			
+			//		block = new Block[14];
+
+			cat = new Cat[4];
+			
+			j=0;
+			for (i=0; i<4; i++)
+			{
+				j=300*i;
+				
+				if(i<2)
+					cat[i] = new Cat((16+j), 624, .05f, 0f);	//offset by 16 bits for everything
+				
+				else{
+					j=0;
+					j=300*(i-1);	
+					cat[i] = new Cat((16+j), 556, -.05f, 0f);	//offset by 16 bits for everything
+				}
+					
+			}
+//			j=0;
+//			for (i=2; i<4; i++)
+//			{
+//				j=300*(i-1);	
+//				cat[i] = new Cat((16+j), 556, -.05f, 0f);	//offset by 16 bits for everything
+//			}
+
+
 			//tileSet = new Tile[21][26];
 			
 //			try{
@@ -100,12 +120,10 @@ public class EscapeGame extends StateBasedGame {
 		public static void main(String[] args) {
 			AppGameContainer app;
 			try {
-				app = new AppGameContainer(new EscapeGame("EFOMJ", 672, 704));
+				app = new AppGameContainer(new EscapeGame("Escape From Old Man Jenkins", 672, 704));
 				app.setDisplayMode(672, 704, false);
 				app.setVSync(true);
 				app.start();
-			
-				//app.setDisp
 				
 			} catch (SlickException e) {
 				e.printStackTrace();
