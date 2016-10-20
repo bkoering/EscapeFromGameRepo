@@ -20,6 +20,7 @@ import org.newdawn.slick.tiled.TiledMap;
 class StartUpState extends BasicGameState {
 	TiledMap map; 
 	int Base, Gnome, Plane, Maze, WaterCollision, MazeLVL1;
+	int i,j;
 
 
 	@Override
@@ -61,9 +62,15 @@ class StartUpState extends BasicGameState {
  			map.render(0, 0, Plane);
  			map.render(0, 0, Maze);
  			
- 			for (int i =0; i<4; i++)
+ 			for (i =0; i<4; i++)
  			{
  				eg.cat[i].render(g);
+ 			}
+ 			
+ 			for ( i =0; i<9; i++)
+ 			{
+				//System.out.println("log"+i);
+ 				eg.log[i].render(g);
  			}
 
 	
@@ -76,8 +83,8 @@ class StartUpState extends BasicGameState {
 		Input input = container.getInput();
 		EscapeGame eg = (EscapeGame)game;
 			
-
-		for (int i =0; i<2; i++)
+		//update cat position
+		for (i =0; i<2; i++)
 		{
 			if (eg.cat[i].getX()>672)
 			{
@@ -90,11 +97,46 @@ class StartUpState extends BasicGameState {
 		{
 			if (eg.cat[i].getX()<-16)
 			{
-				eg.cat[i].setPosition(672, 556);//565
+				eg.cat[i].setPosition(672, 557);//565
 			}
 			
 			eg.cat[i].update(delta);
 		}
+		
+		///update log position
+		for (i =0; i<3; i++)
+		{
+			if (eg.log[i].getX()>707)
+			{
+				eg.log[i].setPosition(-48, 80);
+			}
+			
+			eg.log[i].update(delta);	
+		}
+		
+		for (int i =3; i<6; i++)
+		{
+			if (eg.log[i].getX()<-48)
+			{
+				eg.log[i].setPosition(707, 112);//565
+			}
+			
+			eg.log[i].update(delta);
+		}
+		
+		for (int i =6; i<9; i++)
+		{
+			if (eg.log[i].getX()>707)
+			{
+				eg.log[i].setPosition(-48, 144);
+			}
+			
+			eg.log[i].update(delta);
+		}
+		
+	
+	
+		
 	}//end of update function
 
 	@Override
