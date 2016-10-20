@@ -23,14 +23,16 @@ public class EscapeGame extends StateBasedGame {
 		public static final int PLAYINGSTATE = 1;
 		public static final int GAMEOVERSTATE = 2;
 		
-		//public static final String GAME_BOARD = "src/escape/resource/escapeBoard.tmx";
 		public static final String CAT_IMG = "escape/resource/cats.png";
+		public static final String LOG_IMG = "escape/resource/log.png";
+
 
 
 		public final int ScreenWidth;
 		public final int ScreenHeight;
 		//Tile[][] tileSet;
 		Cat cat[];
+		Log log[];
 		
 
 		public EscapeGame(String title, int width, int height) {
@@ -55,12 +57,14 @@ public class EscapeGame extends StateBasedGame {
 			addState(new StartUpState());
 			// pre-load resources 
 			ResourceManager.loadImage(CAT_IMG);
+			ResourceManager.loadImage(LOG_IMG);
 			
-			//		block = new Block[14];
-
 			cat = new Cat[4];
-			
+			log = new Log[9];
+
 			j=0;
+			
+			//create cats
 			for (i=0; i<4; i++)
 			{
 				j=300*i;
@@ -69,18 +73,36 @@ public class EscapeGame extends StateBasedGame {
 					cat[i] = new Cat((16+j), 624, .05f, 0f);	//offset by 16 bits for everything
 				
 				else{
-					j=0;
+					//j=0;
 					j=300*(i-1);	
-					cat[i] = new Cat((16+j), 556, -.05f, 0f);	//offset by 16 bits for everything
+					cat[i] = new Cat((16+j), 557, -.05f, 0f);	//offset by 16 bits for everything
 				}
 					
 			}
-//			j=0;
-//			for (i=2; i<4; i++)
-//			{
-//				j=300*(i-1);	
-//				cat[i] = new Cat((16+j), 556, -.05f, 0f);	//offset by 16 bits for everything
-//			}
+			
+			//create logs
+			for (i =0; i<9; i++){
+				j=250*i;
+				
+				if(i<3) 
+				{
+					log[i] = new Log((32+j), 80, .05f, 0f);
+				}
+				
+				else if(i<6) 
+				{
+					j=250*(i-2);
+					log[i] = new Log((32+j), 112, -.05f, 0f);
+				}
+				
+				else if(i<9)
+				{
+					j=250*(i-6);
+					log[i] = new Log((32+j), 144, .05f, 0f);
+				}
+			}
+			
+			
 
 
 			//tileSet = new Tile[21][26];
