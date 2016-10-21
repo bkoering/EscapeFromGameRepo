@@ -11,24 +11,19 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
-
-import escape_from_jenkins.EscapeGame;
-
 import org.newdawn.slick.tiled.TiledMap;
 
 
-class StartUpState extends BasicGameState {
+class PlayingState extends BasicGameState {
+	int Lives;
 	TiledMap map; 
-	int Base, Gnome, Plane, Maze, Start;
+	int Base, Gnome, Plane, Maze, Start,GnomesWater;
 	int i,j;
-
-
+	
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		
-		//load lvl1 map
 		try{
 			map = new TiledMap("src/escape/resource/GBlvl1.tmx");
 
@@ -44,59 +39,82 @@ class StartUpState extends BasicGameState {
 		Maze = map.getLayerIndex("maze");
 		Plane = map.getLayerIndex("plane");
 		Start = map.getLayerIndex("startZones");
-
+		GnomesWater = map.getLayerIndex("GOCollision");
 	}
-	
+
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
-		container.setSoundOn(false);
+		EscapeGame eg = (EscapeGame)game;
+		Lives = 3;
+		container.setSoundOn(true);
+		
 	}
-
-
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics g) throws SlickException {
-		
-			EscapeGame eg = (EscapeGame)game;
-		
- 			map.render(0, 0, Base);
- 			map.render(0, 0, Gnome);
- 			map.render(0, 0, Plane);
- 			map.render(0, 0, Maze);
- 			map.render(0, 0, Start);
- 			
- 			
- 			for (i =0; i<4; i++)
- 			{
- 				eg.cat[i].render(g);
- 			}
- 			
- 			for ( i =0; i<9; i++)
- 			{
- 				eg.log[i].render(g);
- 			}
- 			
- 			eg.player.render(g);
-
-	
+		EscapeGame eg = (EscapeGame)game;
+				
+			map.render(0, 0, Base);
+			map.render(0, 0, Gnome);
+			map.render(0, 0, Plane);
+			map.render(0, 0, Maze);
+			map.render(0, 0, Start);
+			
+			
+			for (i =0; i<4; i++)
+			{
+				eg.cat[i].render(g);
+			}
+			
+			for ( i =0; i<9; i++)
+			{
+				eg.log[i].render(g);
+			}
+			
+			eg.player.render(g);
+			
+		g.drawString("Lives: " + Lives, 10, 30);
 	}
 
-	
 	@Override
 	public void update(GameContainer container, StateBasedGame game,
 			int delta) throws SlickException {
+		
 		Input input = container.getInput();
 		EscapeGame eg = (EscapeGame)game;
-		eg.WinState=false;
-
-
-		if (input.isKeyDown(Input.KEY_SPACE)){
-			eg.enterState(EscapeGame.PLAYINGSTATE);	 //WHY YOU ANGRY HERE YOU POS?!?!?
+		
+		
+		
+		//moving the kid
+		if (input.isKeyDown(Input.KEY_LEFT)){
+			if(eg.player.getX() > 16)
+				eg.player.setPosition(eg.player.getX()-10, eg.player.getY());
+		}
+		if (input.isKeyDown(Input.KEY_RIGHT)){
+			if(eg.player.getX() < eg.getScreenWidth()-16)
+				eg.player.setPosition(eg.player.getX()+10, eg.player.getY());
+		}
+		if (input.isKeyDown(Input.KEY_UP)){
+			if(eg.player.getY() > 16)
+				eg.player.setPosition(eg.player.getX(), eg.player.getY()-10);
+		}
+		if (input.isKeyDown(Input.KEY_DOWN)){
+			if(eg.player.getY() < eg.getScreenHeight()-16)
+				eg.player.setPosition(eg.player.getX(), eg.player.getY()+10);
 		}
 		
 
 		
-		//update cat position
+//		if(flag==false && bg.Level3==true)
+//			eg.WinState = true;
+		
+//		if (Lives == 0 || bg.WinState == true) {		
+//			((GameOverState)game.getState(BounceGame.GAMEOVERSTATE)).setUserScore(bounces);
+//			game.enterState(BounceGame.GAMEOVERSTATE);
+//		}
+		
+		
+		//update cat position-----------------
 		for (i =0; i<2; i++)
 		{
 			if (eg.cat[i].getX()>672)
@@ -116,7 +134,7 @@ class StartUpState extends BasicGameState {
 			eg.cat[i].update(delta);
 		}
 		
-		///update log position
+		///update log position--------------------------
 		for (i =0; i<3; i++)
 		{
 			if (eg.log[i].getX()>707)
@@ -146,15 +164,11 @@ class StartUpState extends BasicGameState {
 			
 			eg.log[i].update(delta);
 		}
-		
-	
-	
-		
-	}//end of update function
+	}
 
 	@Override
 	public int getID() {
-		return EscapeGame.STARTUPSTATE;
+		return EscapeGame.PLAYINGSTATE;
 	}
 	
 }

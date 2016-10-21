@@ -9,6 +9,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.util.ResourceLoader;
 
+import escape_from_jenkins.PlayingState;
+import escape_from_jenkins.StartUpState;
+
 import org.newdawn.slick.tiled.TiledMap;
 import jig.Entity;
 import jig.ResourceManager;
@@ -19,13 +22,15 @@ public class EscapeGame extends StateBasedGame {
 		int Base, WaterCollision, MazeLVL1;
 		int i,j;
 		
+		boolean WinState = false;
+
 		public static final int STARTUPSTATE = 0;
 		public static final int PLAYINGSTATE = 1;
 		public static final int GAMEOVERSTATE = 2;
 		
 		public static final String CAT_IMG = "escape/resource/cats.png";
 		public static final String LOG_IMG = "escape/resource/log.png";
-
+		public static final String PLAYER_IMG= "escape/resource/kid.png";
 
 
 		public final int ScreenWidth;
@@ -33,6 +38,7 @@ public class EscapeGame extends StateBasedGame {
 		//Tile[][] tileSet;
 		Cat cat[];
 		Log log[];
+		Player player;
 		
 
 		public EscapeGame(String title, int width, int height) {
@@ -55,14 +61,20 @@ public class EscapeGame extends StateBasedGame {
 		public void initStatesList(GameContainer container) throws SlickException {
 			
 			addState(new StartUpState());
+			//addState(new GameOverState());
+			addState(new PlayingState());
+			
 			// pre-load resources 
 			ResourceManager.loadImage(CAT_IMG);
 			ResourceManager.loadImage(LOG_IMG);
-			
-			cat = new Cat[4];
-			log = new Log[9];
+			ResourceManager.loadImage(PLAYER_IMG);
 
 			j=0;
+
+			cat = new Cat[4];
+			log = new Log[9];
+			
+			player = new Player(656, 688, 0f, 0f);
 			
 			//create cats
 			for (i=0; i<4; i++)
