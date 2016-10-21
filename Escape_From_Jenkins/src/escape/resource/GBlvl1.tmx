@@ -27,6 +27,9 @@
  <tileset firstgid="68" name="start" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="exitZone.png" width="32" height="32"/>
  </tileset>
+ <tileset firstgid="69" name="red" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="rb.png" width="32" height="32"/>
+ </tileset>
  <layer name="Base" width="21" height="22">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NlYGDgB2JWJCyBxicGMwIxExAzAzE3mhnGSFgLh35kNdJQMTYgZoeyVaFyakCsjqYe2Wxs4uRgZLN0gFgXiPVwqFUAYkUgVkLTB/KHDBDLArEmVEwfiA2A2BCIjQi4QRmIVciIC2IxBw3NpsQOWDqitdsowbxU9Del8cBNpTjBJU7Ir9TwAyl2DXbMgcbGFzYg/1IjrVMSR4TcR+8wwyVOrFvoUa4BAGp1P5U4BwAA
@@ -45,6 +48,16 @@
  <layer name="plane" width="21" height="22">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NgIA44EaluFIyCUTAKRsEoGM4AAGCZptI4BwAA
+  </data>
+ </layer>
+ <layer name="startZones" width="21" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMguEPnAfaAaNgWAAXIAYAFa6u9jgHAAA=
+  </data>
+ </layer>
+ <layer name="GOCollision" width="21" height="22" visible="0" opacity="0.61">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoD1wRcPkqEGXH0l4FIwCeoHR9DaywWCMf2LdRE+3AwDg8a5hOAcAAA==
   </data>
  </layer>
 </map>
