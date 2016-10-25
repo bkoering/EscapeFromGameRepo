@@ -11,7 +11,7 @@ Resolved issues
 
 Open Issues
 
-[7] - collisions with gnomes, lives counter active and game over state
+[7] - collisions with gnomes, lives counter active
 [8] - collisions with the cats
 [9] - create old man jenkins
 [10] - create scruffy
