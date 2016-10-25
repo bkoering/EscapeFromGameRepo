@@ -23,6 +23,7 @@ public class EscapeGame extends StateBasedGame {
 		int i,j;
 		
 		boolean WinState = false;
+		boolean hasPlane = false;
 
 		public static final int STARTUPSTATE = 0;
 		public static final int PLAYINGSTATE = 1;
@@ -31,6 +32,8 @@ public class EscapeGame extends StateBasedGame {
 		public static final String CAT_IMG = "escape/resource/cats.png";
 		public static final String LOG_IMG = "escape/resource/log.png";
 		public static final String PLAYER_IMG= "escape/resource/kid.png";
+		public static final String GAMEOVER_BANNER_RSC = "escape/resource/gameOverBanner.png";
+		public static final String WIN_BANNER = "escape/resource/levelClear.png";
 
 
 		public final int ScreenWidth;
@@ -61,13 +64,16 @@ public class EscapeGame extends StateBasedGame {
 		public void initStatesList(GameContainer container) throws SlickException {
 			
 			addState(new StartUpState());
-			//addState(new GameOverState());
+			addState(new GameOverState());
 			addState(new PlayingState());
 			
 			// pre-load resources 
 			ResourceManager.loadImage(CAT_IMG);
 			ResourceManager.loadImage(LOG_IMG);
 			ResourceManager.loadImage(PLAYER_IMG);
+			ResourceManager.loadImage(WIN_BANNER);
+			ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
+
 
 			j=0;
 
@@ -113,40 +119,6 @@ public class EscapeGame extends StateBasedGame {
 					log[i] = new Log((32+j), 144, .05f, 0f);
 				}
 			}
-			
-			
-
-
-			//tileSet = new Tile[21][26];
-			
-//			try{
-//
-//				map = new TiledMap(GAME_BOARD);
-//
-//				} 
-//			catch (SlickException e){
-//
-//				System.out.println("Slick Exception Error: map failed to load");
-//
-//			}
-//			Base = map.getLayerIndex("Base");
-//--------------------------------------------------------------
-//			for(int i = 0; i < 26; i++){ 
-//				for(int j = 0; j < 21; j++){ 
-//				
-//					if(map.getTileId(i, j, map.getLayerIndex("Collision")) > 0){ 
-//					
-//						tileSet[i][j] = new Tile(); 
-//						tileSet[i][j].setCollision();
-//						}
-//				
-//					else {
-//						tileSet[i][j] = new Tile();
-//
-//					}
-//				}//for j end
-//			}//for i end
-			
 		}
 		
 	

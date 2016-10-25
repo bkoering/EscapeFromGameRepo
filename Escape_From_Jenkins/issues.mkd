@@ -5,11 +5,15 @@ Resolved issues
 [3] - create the logs
 [4] - create the player
 [5] - collisions with the hedges in the maze are active
+[6] - grab the plane (plane will disappear) add win state, add game over state
+
+
 
 Open Issues
-[6] - grab the plane (plane will dissapear) activate win state by making it back to the start tile
+
 [7] - collisions with gnomes, lives counter active and game over state
 [8] - collisions with the cats
 [9] - create old man jenkins
 [10] - create scruffy
 [11] - log riding and collision with water
+[12] - add level 2
