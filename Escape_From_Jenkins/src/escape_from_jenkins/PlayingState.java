@@ -27,19 +27,10 @@ class PlayingState extends BasicGameState {
 	int Lives;
 	TiledMap map; 
 	int Base, Gnome, Plane, Maze, Start,GnomesWater;
-	//int i,j;
-	
-	//TileSet[][] mazeTile = new TileSet[21][22];
-	//float mazeCollision[][] = new float[21][22];
+
+	//boolean hasPlane;
 	int[][] mazeCollision = new int[21][22];
-	//mazeCollision[][] = {{0}{0}};
-	
-	
-	
-	
-	
-	
-	//mazeTile.tileHeight = 32;
+
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -61,6 +52,7 @@ class PlayingState extends BasicGameState {
 		Start = map.getLayerIndex("startZones");
 		GnomesWater = map.getLayerIndex("GOCollision");
 		
+		//hasPlane = false;
 		
 		for(int i = 0; i < 21; i++){ 
 			for(int j = 0; j < 22; j++){ 
@@ -85,11 +77,14 @@ class PlayingState extends BasicGameState {
 				
 			map.render(0, 0, Base);
 			map.render(0, 0, Gnome);
-			map.render(0, 0, Plane);
 			map.render(0, 0, Maze);
 			map.render(0, 0, Start);
 			
+			if (eg.hasPlane == false){
+				map.render(0, 0, Plane);
+			}
 			
+	
 			for (int i =0; i<4; i++)
 			{
 				eg.cat[i].render(g);
@@ -121,6 +116,7 @@ class PlayingState extends BasicGameState {
 		xPos = (int) Math.floor(eg.player.getX()/32);
 		yPos = (int) Math.floor(eg.player.getY()/32);
 		
+
 		
 		//moving the kid
 		if ((input.isKeyDown(Input.KEY_LEFT)) && (up == false)&&(right == false)&&(down == false)){
@@ -139,6 +135,7 @@ class PlayingState extends BasicGameState {
 						eg.player.setPosition(eg.player.getX()+10, eg.player.getY());
 			}
 			right = false;
+			System.out.println(xPos + " " +  yPos); // 11,0 plane collide
 		}
 		//------------------------------------
 		if ((input.isKeyDown(Input.KEY_UP)) && (left == false)&&(right == false)&&(down == false)) {
@@ -159,6 +156,20 @@ class PlayingState extends BasicGameState {
 			down = false;
 		}
 		
+		
+		if ((xPos == 11) && (yPos ==0)){
+			eg.hasPlane = true;
+			System.out.println("hasplane");
+		}
+		if((xPos == 20) && (yPos == 21) && (eg.hasPlane == true)) {
+			eg.WinState = true;
+			System.out.println("winstate");
+
+		}
+		
+		if (Lives == 0 || eg.WinState == true) {		
+			game.enterState(EscapeGame.GAMEOVERSTATE);
+		}
 		
 //		if (bg.ball.getCoarseGrainedMaxY() > bg.ScreenHeight) //bottom of screen
 //		{
