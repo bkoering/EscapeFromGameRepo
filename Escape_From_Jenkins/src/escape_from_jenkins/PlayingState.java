@@ -30,6 +30,8 @@ class PlayingState extends BasicGameState {
 
 	//boolean hasPlane;
 	int[][] mazeCollision = new int[21][22];
+	int[][] gnomeCollision = new int[21][22];
+
 
 	
 	@Override
@@ -61,6 +63,16 @@ class PlayingState extends BasicGameState {
 				} 
 			}
 		}
+		
+		
+		for(int i = 0; i < 21; i++){ 
+			for(int j = 0; j < 22; j++){ 
+				if(map.getTileId(i, j, map.getLayerIndex("gnome")) > 0){ 
+					gnomeCollision[i][j] = 1; 
+				} 
+			}
+		}
+		
 	}
 
 	@Override
@@ -155,6 +167,21 @@ class PlayingState extends BasicGameState {
 			}
 			down = false;
 		}
+		
+		
+		
+		
+		
+		if(gnomeCollision[xPos][yPos] == 1){
+			Lives--;
+			eg.player.setPosition(656, 688);
+		}
+		
+		
+		
+		
+		
+		
 		
 		
 		if ((xPos == 11) && (yPos ==0)){

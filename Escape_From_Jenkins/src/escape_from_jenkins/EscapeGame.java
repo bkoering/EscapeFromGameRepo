@@ -34,6 +34,8 @@ public class EscapeGame extends StateBasedGame {
 		public static final String PLAYER_IMG= "escape/resource/kid.png";
 		public static final String GAMEOVER_BANNER_RSC = "escape/resource/gameOverBanner.png";
 		public static final String WIN_BANNER = "escape/resource/levelClear.png";
+		public static final String STARTUP_BANNER_RSC = "escape/resource/startUpBanner.png";
+
 
 
 		public final int ScreenWidth;
@@ -73,6 +75,8 @@ public class EscapeGame extends StateBasedGame {
 			ResourceManager.loadImage(PLAYER_IMG);
 			ResourceManager.loadImage(WIN_BANNER);
 			ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
+			ResourceManager.loadImage(STARTUP_BANNER_RSC);
+
 
 
 			j=0;

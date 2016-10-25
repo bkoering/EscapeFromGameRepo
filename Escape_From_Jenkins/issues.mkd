@@ -6,12 +6,11 @@ Resolved issues
 [4] - create the player
 [5] - collisions with the hedges in the maze are active
 [6] - grab the plane (plane will disappear) add win state, add game over state
-
+[7] - collisions with gnomes, lives counter active
 
 
 Open Issues
 
-[7] - collisions with gnomes, lives counter active
 [8] - collisions with the cats
 [9] - create old man jenkins
 [10] - create scruffy
