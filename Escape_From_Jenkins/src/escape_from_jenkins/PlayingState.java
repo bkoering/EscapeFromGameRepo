@@ -178,6 +178,13 @@ class PlayingState extends BasicGameState {
 		}
 		
 		
+		for(int i=0; i<4; i++){
+			if (eg.player.collides(eg.cat[i]) != null){
+				Lives--;
+				eg.player.setPosition(656, 688);
+			}	
+		}
+		
 		
 		
 		
@@ -191,26 +198,12 @@ class PlayingState extends BasicGameState {
 		if((xPos == 20) && (yPos == 21) && (eg.hasPlane == true)) {
 			eg.WinState = true;
 			System.out.println("winstate");
-
 		}
 		
 		if (Lives == 0 || eg.WinState == true) {		
 			game.enterState(EscapeGame.GAMEOVERSTATE);
 		}
 		
-//		if (bg.ball.getCoarseGrainedMaxY() > bg.ScreenHeight) //bottom of screen
-//		{
-//			bg.ball.setPosition(bg.getScreenWidth() / 2, bg.getScreenHeight() / 2);	
-//			Lives--;
-//		}
-		
-//		if(flag==false && bg.Level3==true)
-//			eg.WinState = true;
-		
-//		if (Lives == 0 || bg.WinState == true) {		
-//			((GameOverState)game.getState(BounceGame.GAMEOVERSTATE)).setUserScore(bounces);
-//			game.enterState(BounceGame.GAMEOVERSTATE);
-//		}
 		
 		
 		//update cat position-----------------
