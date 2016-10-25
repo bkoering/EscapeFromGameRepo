@@ -59,6 +59,7 @@ class StartUpState extends BasicGameState {
 		
 			EscapeGame eg = (EscapeGame)game;
 		
+			
  			map.render(0, 0, Base);
  			map.render(0, 0, Gnome);
  			map.render(0, 0, Plane);
@@ -77,7 +78,9 @@ class StartUpState extends BasicGameState {
  			}
  			
  			eg.player.render(g);
-
+ 			
+ 			g.drawImage(ResourceManager.getImage(EscapeGame.STARTUP_BANNER_RSC),
+					100, 200);
 	
 	}
 
@@ -91,7 +94,7 @@ class StartUpState extends BasicGameState {
 
 
 		if (input.isKeyDown(Input.KEY_SPACE)){
-			eg.enterState(EscapeGame.PLAYINGSTATE);	 //WHY YOU ANGRY HERE YOU POS?!?!?
+			eg.enterState(EscapeGame.PLAYINGSTATE);	
 		}
 		
 
