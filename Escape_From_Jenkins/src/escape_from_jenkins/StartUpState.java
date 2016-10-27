@@ -91,6 +91,7 @@ class StartUpState extends BasicGameState {
 		Input input = container.getInput();
 		EscapeGame eg = (EscapeGame)game;
 		eg.WinState=false;
+		eg.hasPlane=false;
 
 
 		if (input.isKeyDown(Input.KEY_SPACE)){

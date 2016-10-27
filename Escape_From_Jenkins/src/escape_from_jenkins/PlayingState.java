@@ -225,7 +225,7 @@ class PlayingState extends BasicGameState {
 		}
 		if((xPos == 20) && (yPos == 21) && (eg.hasPlane == true)) {
 			eg.WinState = true;
-			//System.out.println("winstate");
+			System.out.println("winstate");
 		}
 		
 		if (Lives == 0 || eg.WinState == true) {		
