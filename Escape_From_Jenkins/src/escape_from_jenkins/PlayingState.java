@@ -26,11 +26,12 @@ import escape_from_jenkins.StartUpState;
 class PlayingState extends BasicGameState {
 	int Lives;
 	TiledMap map; 
-	int Base, Gnome, Plane, Maze, Start,GnomesWater;
+	int Base, Gnome, Plane, Maze, Start, Water;
 
 	//boolean hasPlane;
 	int[][] mazeCollision = new int[21][22];
 	int[][] gnomeCollision = new int[21][22];
+	int[][] dMap = new int[21][22];
 
 
 	
@@ -39,23 +40,19 @@ class PlayingState extends BasicGameState {
 			throws SlickException {
 		try{
 			map = new TiledMap("src/escape/resource/GBlvl1.tmx");
-
 			} 
 		catch (SlickException e){
-
 			System.out.println("Slick Exception Error: map failed to load");
-
 		}
+		
 		//grab map layers
 		Base = map.getLayerIndex("Base");
 		Gnome = map.getLayerIndex("gnome");
 		Maze = map.getLayerIndex("maze");
 		Plane = map.getLayerIndex("plane");
 		Start = map.getLayerIndex("startZones");
-		GnomesWater = map.getLayerIndex("GOCollision");
-		
-		//hasPlane = false;
-		
+		Water = map.getLayerIndex("waterCollision");
+				
 		for(int i = 0; i < 21; i++){ 
 			for(int j = 0; j < 22; j++){ 
 				if(map.getTileId(i, j, map.getLayerIndex("maze")) > 0){ 
@@ -72,6 +69,27 @@ class PlayingState extends BasicGameState {
 				} 
 			}
 		}
+		
+		
+		//fill up dijkstra map with "walls"
+				for(int j = 0; j < 22; j++){  //y
+					for(int i = 0; i < 21; i++){ //x
+						if((map.getTileId(i, j, map.getLayerIndex("maze")) > 0 || 
+								(map.getTileId(i, j, map.getLayerIndex("gnome"))) > 0)){ 
+							dMap[i][j] = 100; 
+						} 
+						else
+							dMap[i][j] = -1;
+						
+						System.out.print(dMap[i][j] + " ");
+					}
+					System.out.println("");
+
+				}
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
 		
 	}
 
@@ -108,6 +126,7 @@ class PlayingState extends BasicGameState {
 			}
 			
 			eg.player.render(g);
+			eg.oldMan.render(g);
 			
 		g.drawString("Lives: " + Lives, 10, 30);
 	}
@@ -130,7 +149,7 @@ class PlayingState extends BasicGameState {
 		
 
 		
-		//moving the kid
+		//moving the kid-----------------------
 		if ((input.isKeyDown(Input.KEY_LEFT)) && (up == false)&&(right == false)&&(down == false)){
 			left = true;
 			if((eg.player.getX() > 16) && (xPos-1 >= 0)) {
@@ -147,7 +166,7 @@ class PlayingState extends BasicGameState {
 						eg.player.setPosition(eg.player.getX()+10, eg.player.getY());
 			}
 			right = false;
-			System.out.println(xPos + " " +  yPos); // 11,0 plane collide
+			//System.out.println(xPos + " " +  yPos); // 11,0 plane collide
 		}
 		//------------------------------------
 		if ((input.isKeyDown(Input.KEY_UP)) && (left == false)&&(right == false)&&(down == false)) {
@@ -170,7 +189,7 @@ class PlayingState extends BasicGameState {
 		
 		
 		
-		
+		//lose a life if collide with gnomes or cats, return to start
 		
 		if(gnomeCollision[xPos][yPos] == 1){
 			Lives--;
@@ -186,18 +205,27 @@ class PlayingState extends BasicGameState {
 		}
 		
 		
+		//here comes old man jenkins! - a.k.a. the path finding section
+		
+		
+
 		
 		
 		
 		
+		
+		
+		
+		
+		//win state activation and game over state activation-----------
 		
 		if ((xPos == 11) && (yPos ==0)){
 			eg.hasPlane = true;
-			System.out.println("hasplane");
+			//System.out.println("hasplane");
 		}
 		if((xPos == 20) && (yPos == 21) && (eg.hasPlane == true)) {
 			eg.WinState = true;
-			System.out.println("winstate");
+			//System.out.println("winstate");
 		}
 		
 		if (Lives == 0 || eg.WinState == true) {		
