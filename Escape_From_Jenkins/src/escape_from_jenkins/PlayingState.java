@@ -130,43 +130,56 @@ class PlayingState extends BasicGameState {
 		//moving the kid-----------------------
 		if ((input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT)) &&
 				!(input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN))){
-			if((eg.player.getCoarseGrainedMinX() > 0) && (xPos-1 >= 0)) {
-				if(mazeCollision[xPos-1][yPos] == 0)
+			
+			if((eg.player.getCoarseGrainedMinX() > 0)) {
+				if(xPos-1 > 0){
+					if(mazeCollision[xPos-1][yPos] == 0)
+						eg.player.setPosition(eg.player.getX()-5, eg.player.getY());
+				}
+				else
 					eg.player.setPosition(eg.player.getX()-5, eg.player.getY());
-				System.out.println(xPos+ " "+yPos);
 			}
 		}
 		//-------------------------
 		if ((input.isKeyDown(Input.KEY_RIGHT)) && !(input.isKeyDown(Input.KEY_LEFT)) &&
 				!(input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN))){
 			
-			if((eg.player.getCoarseGrainedMaxX()< eg.getScreenWidth()-16) && (xPos+1 < 21)){
+			if((eg.player.getCoarseGrainedMaxX()< eg.getScreenWidth()) ){
+				if(xPos < 20){
 					if(mazeCollision[xPos+1][yPos] == 0)
 						eg.player.setPosition(eg.player.getX()+5, eg.player.getY());
-					System.out.println(xPos+ " "+yPos);
+				}
+				else
+					eg.player.setPosition(eg.player.getX()+5, eg.player.getY());
 			}
 			
-			//System.out.println(xPos + " " +  yPos); // 11,0 plane collide
 		}
 		//------------------------------------
 		if ((input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN)) &&
 				!(input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT))) {
 			
-			if((eg.player.getCoarseGrainedMinY() > 0) && (yPos-1 > -1))
-				if(mazeCollision[xPos][yPos-1] == 0){
+			System.out.println(yPos);
+			if(eg.player.getCoarseGrainedMinY() > 0)
+			{
+				if(yPos > 0){
+					if(mazeCollision[xPos][yPos-1] == 0)
+						eg.player.setPosition(eg.player.getX(), eg.player.getY()-5);
+				}
+				else
 					eg.player.setPosition(eg.player.getX(), eg.player.getY()-5);
-					System.out.println(xPos+ " "+yPos);
 			}
-			
 		}
 		//----------------------------------------
 		if ((input.isKeyDown(Input.KEY_DOWN)) && !(input.isKeyDown(Input.KEY_UP)) &&
 				!(input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT))){
 			
-			if((eg.player.getCoarseGrainedMaxY()< eg.getScreenHeight()) && (yPos+1 <22)){
+			if(eg.player.getCoarseGrainedMaxY()< eg.getScreenHeight()){
+				if(yPos < 21){
 					if(mazeCollision[xPos][yPos+1] == 0)
 						eg.player.setPosition(eg.player.getX(), eg.player.getY()+5);
-					System.out.println(xPos+ " "+yPos);
+					}
+				else
+					eg.player.setPosition(eg.player.getX(), eg.player.getY()+5);
 			}
 		}
 		
