@@ -34,11 +34,6 @@ class PlayingState extends BasicGameState {
 	long tDelta;
 	long countDownToScruffy;
 	
-//	long tEnd = System.currentTimeMillis();
-//	long tDelta = currentTime - startTime;
-//	double elapsedSeconds = tDelta / 1000.0;
-	//countDownToScruffy = 30 - (tDelta / 1000.0);
-	
 	int[][] mazeCollision = new int[21][22];
 	int[][] gnomeCollision = new int[21][22];
 	int[][] dMap = new int[21][22];
@@ -55,7 +50,7 @@ class PlayingState extends BasicGameState {
 		}
 		
 		startTime = System.currentTimeMillis();
-		countDownToScruffy = (long) (30.0 - (tDelta / 1000.0));
+		
 		
 		//grab map layers
 		Base = map.getLayerIndex("Base");
@@ -103,22 +98,26 @@ class PlayingState extends BasicGameState {
 			if (eg.hasPlane == false){
 				map.render(0, 0, Plane);
 			}
-			
 	
-			for (int i =0; i<4; i++)
-			{
+			for (int i =0; i<4; i++){
 				eg.cat[i].render(g);
 			}
 			
-			for (int i =0; i<9; i++)
-			{
+			for (int i =0; i<9; i++){
 				eg.log[i].render(g);
 			}
 			
 			eg.player.render(g);
 			eg.oldMan.render(g);
+			if(eg.releaseScruffy==true)
+				eg.scruffy.render(g);
 			
 		g.drawString("Lives: " + Lives, 10, 30);
+		
+		if (countDownToScruffy >=0)
+			g.drawString("Incoming Scruffy: " + countDownToScruffy, 10, 50);
+		else
+			g.drawString("Incoming Scruffy: 0", 10, 50);
 	}
 
 	@Override
@@ -132,6 +131,8 @@ class PlayingState extends BasicGameState {
 		int yPos;
 		int xPosOldMan;
 		int yPosOldMan;
+		int xPosScruf;
+		int yPosScruf;
 		
 		xPos = (int) Math.floor(eg.player.getX()/32);
 		yPos = (int) Math.floor(eg.player.getY()/32);
@@ -139,7 +140,15 @@ class PlayingState extends BasicGameState {
 		xPosOldMan = (int) Math.floor(eg.oldMan.getX()/32);
 		yPosOldMan = (int) Math.floor(eg.oldMan.getY()/32);
 		
+		xPosScruf = (int) Math.floor(eg.scruffy.getX()/32);
+		yPosScruf = (int) Math.floor(eg.scruffy.getY()/32);
+		
+		
+		currentTime = System.currentTimeMillis();
 		tDelta = currentTime - startTime;
+		countDownToScruffy = (long) (30.0 - (tDelta / 1000.0));
+		if (countDownToScruffy <= 0)
+			eg.releaseScruffy = true;
 		
 		//moving the kid-----------------------
 		if ((input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT)) &&
@@ -172,7 +181,6 @@ class PlayingState extends BasicGameState {
 		if ((input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN)) &&
 				!(input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT))) {
 			
-			System.out.println(yPos);
 			if(eg.player.getCoarseGrainedMinY() > 0)
 			{
 				if(yPos > 0){
@@ -198,20 +206,23 @@ class PlayingState extends BasicGameState {
 		}
 		
 
-		//lose a life if collide with gnomes or cats, return to start	
+		//lose a life if collide with gnome and return to start
 		if(gnomeCollision[xPos][yPos] == 1){
 			Lives--;
 			eg.player.setPosition(656, 688);
+			startTime = System.currentTimeMillis();
 		}
-			
+		
+		//cat collision
 		for(int i=0; i<4; i++){
 			if (eg.player.collides(eg.cat[i]) != null){
 				Lives--;
 				eg.player.setPosition(656, 688);
+				startTime = System.currentTimeMillis();
 			}	
 		}
 		
-		//HERE COMES OLD MAN JENKINS! - a.k.a. the path finding section
+		//HERE COMES OLD MAN JENKINS! - a.k.a. the path finding section--------------
 		//fill map with "walls"
 		for(int j = 0; j < 22; j++){  //y
 			for(int i = 0; i < 21; i++){ //x
@@ -290,9 +301,11 @@ class PlayingState extends BasicGameState {
 			}
 		}//while iterate end
 
-		int bestMove;
+		int bestMove,bestMoveS;
 		boolean tUp, tDown, tLeft, tRight;
+		boolean tUpS, tDownS, tLeftS, tRightS;
 		tUp = tDown = tLeft = tRight = false;
+		tUpS = tDownS = tLeftS = tRightS = false;
 		
 		if (eg.player.collides(eg.oldMan) == null){ //check for lowest value tile around old man jenkins
 			
@@ -350,6 +363,71 @@ class PlayingState extends BasicGameState {
 				eg.player.setPosition(656, 688);
 				eg.oldMan.setPosition(16, 496);
 				eg.hasPlane = false;
+				startTime = System.currentTimeMillis();
+		}
+		
+		if(eg.releaseScruffy == true){
+			if (eg.player.collides(eg.scruffy) == null){ //check for lowest value tile around old man jenkins
+				
+				bestMoveS = 300; //set to some ridiculously high number so it will have to pick one of the 4 directions
+				
+				if(xPosScruf+1 != 21){
+					if(bestMoveS >= dMap[xPosScruf+1][yPosScruf])//check right
+					{
+						bestMoveS = dMap[xPosScruf+1][yPosScruf];
+						tUpS = tDownS = tLeftS = false;
+						tRightS=true;
+					}
+				}
+				
+				if(xPosScruf-1 > 0){
+					if(bestMoveS >= dMap[xPosScruf-1][yPosScruf])//check left
+					{
+						bestMoveS = dMap[xPosScruf-1][yPosScruf];
+						tUpS = tDownS = tRightS = false;
+						tLeftS=true;
+					}
+				}
+				
+				if(yPosScruf-1 > 0){
+					if(bestMoveS >= dMap[xPosScruf][yPosScruf-1])//check up
+					{
+						bestMoveS = dMap[xPosScruf][yPosScruf-1];
+						tDownS = tLeftS = tRightS = false;
+						tUpS=true;
+					}
+				}
+				
+				if(yPosScruf+1 != 22){
+					if(bestMoveS >= dMap[xPosScruf][yPosScruf+1])//check down
+					{
+						bestMoveS = dMap[xPosScruf][yPosScruf+1];
+						tLeftS = tUpS = tRightS = false;
+						tDownS=true;
+					}
+				}
+				
+				if (tUpS == true)
+					eg.scruffy.setPosition(eg.scruffy.getX(), eg.scruffy.getY()-3); //move up
+				if (tDownS == true)
+					eg.scruffy.setPosition(eg.scruffy.getX(), eg.scruffy.getY()+3); //move down
+				if (tLeftS == true)
+					eg.scruffy.setPosition(eg.scruffy.getX()-3, eg.scruffy.getY()); //move left
+				if (tRightS == true)
+					eg.scruffy.setPosition(eg.scruffy.getX()+3, eg.scruffy.getY()); //move right
+				
+			}
+			else 
+			{	//this stays the same as old man jenkins section since it all still applies
+					Lives--;
+					eg.player.setPosition(656, 688);
+					eg.oldMan.setPosition(16, 496);
+					eg.scruffy.setPosition(16, 496);
+					eg.hasPlane = false;
+					eg.releaseScruffy=false;
+					startTime = System.currentTimeMillis();
+			}
+			
 		}
 		
 		//DEBUGGING************
