@@ -42,6 +42,8 @@ public class EscapeGame extends StateBasedGame {
 		public final int ScreenWidth;
 		public final int ScreenHeight;
 		
+		long startTime = System.currentTimeMillis();
+		
 		Cat cat[];
 		Log log[];
 		Player player;
@@ -88,7 +90,7 @@ public class EscapeGame extends StateBasedGame {
 			cat = new Cat[4];
 			log = new Log[9];
 			
-			player = new Player(656, 688);
+			player = new Player(656, 688, 0f, 0f);
 			oldMan = new OldMan(16, 496, 0f, 0f);
 			scruffy = new Scruffy(16, 496, 0f, 0f);
 

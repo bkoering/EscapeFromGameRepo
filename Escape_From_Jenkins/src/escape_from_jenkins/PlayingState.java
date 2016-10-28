@@ -29,7 +29,7 @@ class PlayingState extends BasicGameState {
 	TiledMap map;
 	Tile tile;
 
-	long startTime = System.currentTimeMillis();
+	//long startTime = System.currentTimeMillis();
 	long currentTime;
 	long tDelta;
 	long countDownToScruffy;
@@ -37,6 +37,7 @@ class PlayingState extends BasicGameState {
 	int[][] mazeCollision = new int[21][22];
 	int[][] gnomeCollision = new int[21][22];
 	int[][] dMap = new int[21][22];
+	int[][] waterCollision = new int[21][22];
 
 
 	@Override
@@ -48,8 +49,8 @@ class PlayingState extends BasicGameState {
 		catch (SlickException e){
 			System.out.println("Slick Exception Error: map failed to load");
 		}
-		
-		startTime = System.currentTimeMillis();
+		EscapeGame eg = (EscapeGame)game;
+		eg.startTime = System.currentTimeMillis();
 		
 		
 		//grab map layers
@@ -62,17 +63,23 @@ class PlayingState extends BasicGameState {
 				
 		for(int i = 0; i < 21; i++){ 
 			for(int j = 0; j < 22; j++){ 
-				if(map.getTileId(i, j, map.getLayerIndex("maze")) > 0){ 
+				if(map.getTileId(i, j, Maze) > 0){ 
 					mazeCollision[i][j] = 1; 
 				} 
 			}
 		}
 		
-		
 		for(int i = 0; i < 21; i++){ 
 			for(int j = 0; j < 22; j++){ 
-				if(map.getTileId(i, j, map.getLayerIndex("gnome")) > 0){ 
+				if(map.getTileId(i, j, Gnome) > 0){ 
 					gnomeCollision[i][j] = 1; 
+				} 
+			}
+		}
+		for(int i = 0; i < 21; i++){ 
+			for(int j = 0; j < 22; j++){ 
+				if(map.getTileId(i, j, Water) > 0){ 
+					waterCollision[i][j] = 1; 
 				} 
 			}
 		}
@@ -145,7 +152,7 @@ class PlayingState extends BasicGameState {
 		
 		
 		currentTime = System.currentTimeMillis();
-		tDelta = currentTime - startTime;
+		tDelta = currentTime - eg.startTime;
 		countDownToScruffy = (long) (30.0 - (tDelta / 1000.0));
 		if (countDownToScruffy <= 0)
 			eg.releaseScruffy = true;
@@ -210,15 +217,44 @@ class PlayingState extends BasicGameState {
 		if(gnomeCollision[xPos][yPos] == 1){
 			Lives--;
 			eg.player.setPosition(656, 688);
-			startTime = System.currentTimeMillis();
+			eg.oldMan.setPosition(16, 496);
+			eg.scruffy.setPosition(16, 496);
+			eg.hasPlane = false;
+			eg.releaseScruffy=false;
+			eg.startTime = System.currentTimeMillis();
 		}
 		
+		
+		//log collision in the water section 
+		if(waterCollision[xPos][yPos] == 1){//in water section
+			boolean onlog = false;
+			for(int i=0; i<9;i++){
+					if(eg.player.collides(eg.log[i]) != null){ //on the log
+						eg.player.setVelocity(eg.log[i].getVelocity());
+						eg.player.update(delta);
+					onlog=true;
+					}
+			}
+			if (!onlog) {
+					Lives--;
+					eg.player.setPosition(656, 688);
+					eg.oldMan.setPosition(16, 496);
+					eg.hasPlane = false;
+					eg.releaseScruffy=false;
+					eg.startTime = System.currentTimeMillis();
+					
+			}
+		}
 		//cat collision
 		for(int i=0; i<4; i++){
 			if (eg.player.collides(eg.cat[i]) != null){
 				Lives--;
 				eg.player.setPosition(656, 688);
-				startTime = System.currentTimeMillis();
+				eg.oldMan.setPosition(16, 496);
+				eg.scruffy.setPosition(16, 496);
+				eg.hasPlane = false;
+				eg.releaseScruffy=false;
+				eg.startTime = System.currentTimeMillis();
 			}	
 		}
 		
@@ -242,7 +278,7 @@ class PlayingState extends BasicGameState {
 		//DEBUG*****************
 //		System.out.println("");
 //		System.out.println("");
-//		System.out.println("MAP START");
+//		System.out.println("WALLS MAP");
 //
 //		for(int j=0;j<22;j++){
 //			for(int i=0;i<21;i++){
@@ -347,7 +383,8 @@ class PlayingState extends BasicGameState {
 				}
 			}
 			
-			if (tUp == true)
+			//System.out.println(eg.oldMan.getX());
+			if (tUp == true && (eg.oldMan.getY()>160))
 				eg.oldMan.setPosition(eg.oldMan.getX(), eg.oldMan.getY()-1); //move up
 			if (tDown == true)
 				eg.oldMan.setPosition(eg.oldMan.getX(), eg.oldMan.getY()+1); //move down
@@ -362,10 +399,13 @@ class PlayingState extends BasicGameState {
 				Lives--;
 				eg.player.setPosition(656, 688);
 				eg.oldMan.setPosition(16, 496);
+				eg.scruffy.setPosition(16, 496);
 				eg.hasPlane = false;
-				startTime = System.currentTimeMillis();
+				eg.releaseScruffy=false;
+				eg.startTime = System.currentTimeMillis();
 		}
 		
+		//INCOMING SCRUFFY 
 		if(eg.releaseScruffy == true){
 			if (eg.player.collides(eg.scruffy) == null){ //check for lowest value tile around old man jenkins
 				
@@ -407,7 +447,7 @@ class PlayingState extends BasicGameState {
 					}
 				}
 				
-				if (tUpS == true)
+				if (tUpS == true && (eg.scruffy.getY()>160))
 					eg.scruffy.setPosition(eg.scruffy.getX(), eg.scruffy.getY()-3); //move up
 				if (tDownS == true)
 					eg.scruffy.setPosition(eg.scruffy.getX(), eg.scruffy.getY()+3); //move down
@@ -425,7 +465,7 @@ class PlayingState extends BasicGameState {
 					eg.scruffy.setPosition(16, 496);
 					eg.hasPlane = false;
 					eg.releaseScruffy=false;
-					startTime = System.currentTimeMillis();
+					eg.startTime = System.currentTimeMillis();
 			}
 			
 		}
@@ -433,7 +473,7 @@ class PlayingState extends BasicGameState {
 		//DEBUGGING************
 //		System.out.println("");
 //		System.out.println("");
-//		System.out.println("dijkstras map");
+//		System.out.println("DIJKSTRAS MAP");
 //
 //		for(int j=0;j<22;j++){
 //			for(int i=0;i<21;i++){
@@ -459,7 +499,7 @@ class PlayingState extends BasicGameState {
 			//System.out.println("winstate");
 		}
 		
-		if (Lives == 0 || eg.WinState == true) {		
+		if (Lives <= 0 || eg.WinState == true) {		
 			game.enterState(EscapeGame.GAMEOVERSTATE);
 		}
 		
