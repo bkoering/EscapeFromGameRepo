@@ -5,15 +5,15 @@ import jig.ResourceManager;
 import jig.Vector;
 
 
- class Cat extends Entity {
+ class OldMan extends Entity {
 
 	private Vector velocity;
 	private int countdown;
 
-	public Cat(final float x, final float y, final float vx, final float vy) {
+	public OldMan(final float x, final float y, final float vx, final float vy) {
 		super(x, y);
 		addImageWithBoundingBox(ResourceManager
-				.getImage(EscapeGame.CAT_IMG));
+				.getImage(EscapeGame.OLDMAN_IMG));
 		velocity = new Vector(vx, vy);
 		countdown = 0;
 	}
@@ -25,7 +25,6 @@ import jig.Vector;
 	public Vector getVelocity() {
 		return velocity;
 	}
-
 
 	public void update(final int delta) {
 		translate(velocity.scale(delta));

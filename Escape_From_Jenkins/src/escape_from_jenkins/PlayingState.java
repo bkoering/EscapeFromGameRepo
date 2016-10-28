@@ -1,6 +1,7 @@
 package escape_from_jenkins;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.ArrayList;
 
 import jig.ResourceManager;
@@ -21,41 +22,49 @@ import org.newdawn.slick.util.ResourceLoader;
 import escape_from_jenkins.PlayingState;
 import escape_from_jenkins.StartUpState;
 
-
-
 class PlayingState extends BasicGameState {
 	int Lives;
-	TiledMap map; 
-	int Base, Gnome, Plane, Maze, Start,GnomesWater;
+	int Base, Gnome, Plane, Maze, Start, Water;
+	
+	TiledMap map;
+	Tile tile;
 
-	//boolean hasPlane;
+	long startTime = System.currentTimeMillis();
+	long currentTime;
+	long tDelta;
+	long countDownToScruffy;
+	
+//	long tEnd = System.currentTimeMillis();
+//	long tDelta = currentTime - startTime;
+//	double elapsedSeconds = tDelta / 1000.0;
+	//countDownToScruffy = 30 - (tDelta / 1000.0);
+	
 	int[][] mazeCollision = new int[21][22];
 	int[][] gnomeCollision = new int[21][22];
+	int[][] dMap = new int[21][22];
 
 
-	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		try{
 			map = new TiledMap("src/escape/resource/GBlvl1.tmx");
-
 			} 
 		catch (SlickException e){
-
 			System.out.println("Slick Exception Error: map failed to load");
-
 		}
+		
+		startTime = System.currentTimeMillis();
+		countDownToScruffy = (long) (30.0 - (tDelta / 1000.0));
+		
 		//grab map layers
 		Base = map.getLayerIndex("Base");
 		Gnome = map.getLayerIndex("gnome");
 		Maze = map.getLayerIndex("maze");
 		Plane = map.getLayerIndex("plane");
 		Start = map.getLayerIndex("startZones");
-		GnomesWater = map.getLayerIndex("GOCollision");
-		
-		//hasPlane = false;
-		
+		Water = map.getLayerIndex("waterCollision");
+				
 		for(int i = 0; i < 21; i++){ 
 			for(int j = 0; j < 22; j++){ 
 				if(map.getTileId(i, j, map.getLayerIndex("maze")) > 0){ 
@@ -72,7 +81,6 @@ class PlayingState extends BasicGameState {
 				} 
 			}
 		}
-		
 	}
 
 	@Override
@@ -108,6 +116,7 @@ class PlayingState extends BasicGameState {
 			}
 			
 			eg.player.render(g);
+			eg.oldMan.render(g);
 			
 		g.drawString("Lives: " + Lives, 10, 30);
 	}
@@ -118,66 +127,83 @@ class PlayingState extends BasicGameState {
 		
 		Input input = container.getInput();
 		EscapeGame eg = (EscapeGame)game;
-		
-		boolean up, down, left, right;
-		up = down = left = right = false;
 	
 		int xPos;
 		int yPos;
+		int xPosOldMan;
+		int yPosOldMan;
 		
 		xPos = (int) Math.floor(eg.player.getX()/32);
 		yPos = (int) Math.floor(eg.player.getY()/32);
 		
-
+		xPosOldMan = (int) Math.floor(eg.oldMan.getX()/32);
+		yPosOldMan = (int) Math.floor(eg.oldMan.getY()/32);
 		
-		//moving the kid
-		if ((input.isKeyDown(Input.KEY_LEFT)) && (up == false)&&(right == false)&&(down == false)){
-			left = true;
-			if((eg.player.getX() > 16) && (xPos-1 >= 0)) {
-				if(mazeCollision[xPos-1][yPos] == 0)
-					eg.player.setPosition(eg.player.getX()-10, eg.player.getY());
+		tDelta = currentTime - startTime;
+		
+		//moving the kid-----------------------
+		if ((input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT)) &&
+				!(input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN))){
+			
+			if((eg.player.getCoarseGrainedMinX() > 0)) {
+				if(xPos-1 > 0){
+					if(mazeCollision[xPos-1][yPos] == 0)
+						eg.player.setPosition(eg.player.getX()-5, eg.player.getY());
+				}
+				else
+					eg.player.setPosition(eg.player.getX()-5, eg.player.getY());
 			}
-			left = false;
 		}
 		//-------------------------
-		if ((input.isKeyDown(Input.KEY_RIGHT)) && (up == false) && (left == false)&&(down == false)){
-			right = true;
-			if((eg.player.getX() < eg.getScreenWidth()-16) && (xPos+1 < 21)){
+		if ((input.isKeyDown(Input.KEY_RIGHT)) && !(input.isKeyDown(Input.KEY_LEFT)) &&
+				!(input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN))){
+			
+			if((eg.player.getCoarseGrainedMaxX()< eg.getScreenWidth()) ){
+				if(xPos < 20){
 					if(mazeCollision[xPos+1][yPos] == 0)
-						eg.player.setPosition(eg.player.getX()+10, eg.player.getY());
+						eg.player.setPosition(eg.player.getX()+5, eg.player.getY());
+				}
+				else
+					eg.player.setPosition(eg.player.getX()+5, eg.player.getY());
 			}
-			right = false;
-			System.out.println(xPos + " " +  yPos); // 11,0 plane collide
+			
 		}
 		//------------------------------------
-		if ((input.isKeyDown(Input.KEY_UP)) && (left == false)&&(right == false)&&(down == false)) {
-			up = true;
-			if((eg.player.getY() > 16) && (yPos-1 >= 0))
-				if(mazeCollision[xPos][yPos-1] == 0){
-					eg.player.setPosition(eg.player.getX(), eg.player.getY()-16);
+		if ((input.isKeyDown(Input.KEY_UP)) && !(input.isKeyDown(Input.KEY_DOWN)) &&
+				!(input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT))) {
+			
+			System.out.println(yPos);
+			if(eg.player.getCoarseGrainedMinY() > 0)
+			{
+				if(yPos > 0){
+					if(mazeCollision[xPos][yPos-1] == 0)
+						eg.player.setPosition(eg.player.getX(), eg.player.getY()-5);
+				}
+				else
+					eg.player.setPosition(eg.player.getX(), eg.player.getY()-5);
 			}
-			up = false;
 		}
 		//----------------------------------------
-		if ((input.isKeyDown(Input.KEY_DOWN)) && (up == false)&&(right == false)&&(left == false)){
-			down = true;
-			if((eg.player.getY() < eg.getScreenHeight()-16) && (yPos+1 < 22)){
+		if ((input.isKeyDown(Input.KEY_DOWN)) && !(input.isKeyDown(Input.KEY_UP)) &&
+				!(input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT))){
+			
+			if(eg.player.getCoarseGrainedMaxY()< eg.getScreenHeight()){
+				if(yPos < 21){
 					if(mazeCollision[xPos][yPos+1] == 0)
-						eg.player.setPosition(eg.player.getX(), eg.player.getY()+10);
+						eg.player.setPosition(eg.player.getX(), eg.player.getY()+5);
+					}
+				else
+					eg.player.setPosition(eg.player.getX(), eg.player.getY()+5);
 			}
-			down = false;
 		}
 		
-		
-		
-		
-		
+
+		//lose a life if collide with gnomes or cats, return to start	
 		if(gnomeCollision[xPos][yPos] == 1){
 			Lives--;
 			eg.player.setPosition(656, 688);
 		}
-		
-		
+			
 		for(int i=0; i<4; i++){
 			if (eg.player.collides(eg.cat[i]) != null){
 				Lives--;
@@ -185,25 +211,179 @@ class PlayingState extends BasicGameState {
 			}	
 		}
 		
+		//HERE COMES OLD MAN JENKINS! - a.k.a. the path finding section
+		//fill map with "walls"
+		for(int j = 0; j < 22; j++){  //y
+			for(int i = 0; i < 21; i++){ //x
+				if((map.getTileId(i, j, map.getLayerIndex("maze")) > 0 || 
+						(map.getTileId(i, j, map.getLayerIndex("gnome"))) > 0)){ 
+					dMap[i][j] = 100; 
+				} 
+				else
+					dMap[i][j] = -1;
+			}
+		}
+		
+		
+		//set player position
+		dMap[xPos][yPos]=0;
+
+		//DEBUG*****************
+//		System.out.println("");
+//		System.out.println("");
+//		System.out.println("MAP START");
+//
+//		for(int j=0;j<22;j++){
+//			for(int i=0;i<21;i++){
+//				System.out.print(dMap[i][j] + "   ");
+//			}
+//			System.out.println("");
+//		}
+//		System.out.println("");
+//		System.out.println("");
+//		System.out.println("");
+		//********************************
+		
+		//fill tile map with weights
+		List<Tile> list = new ArrayList<Tile>();
+		list.add(new Tile(xPos,yPos));
+		Iterator<Tile> iterate = list.iterator();
+				
+		while(iterate.hasNext()){
+			tile = iterate.next();
+			
+			//fill right
+			if((tile.getX()+1 < 21) && (dMap[tile.getX()+1][tile.getY()] != 100)){
+				if(dMap[tile.getX()+1][tile.getY()] == -1 ||
+				   dMap[tile.getX()+1][tile.getY()] > dMap[tile.getX()][tile.getY()]+1){
+						dMap[tile.getX()+1][tile.getY()] = dMap[tile.getX()][tile.getY()]+1;
+						list.add(new Tile(tile.getX()+1, tile.getY()));
+						iterate = list.iterator();
+				}
+			}
+			//fill left
+			if((tile.getX()-1 >= 0) && (dMap[tile.getX()-1][tile.getY()] != 100)){
+				if(dMap[tile.getX()-1][tile.getY()] == -1 || 
+				   dMap[tile.getX()-1][tile.getY()] > dMap[tile.getX()][tile.getY()]+1){
+						dMap[tile.getX()-1][tile.getY()] = dMap[tile.getX()][tile.getY()]+1;
+						list.add(new Tile(tile.getX()-1, tile.getY()));
+						iterate = list.iterator();
+				}
+			}
+			//fill down
+			if((tile.getY()+1 < 22) && (dMap[tile.getX()][tile.getY()+1] != 100)){
+				if(dMap[tile.getX()][tile.getY()+1] == -1 || 
+				   dMap[tile.getX()][tile.getY()+1] > dMap[tile.getX()][tile.getY()]+1){
+						dMap[tile.getX()][tile.getY()+1] = dMap[tile.getX()][tile.getY()]+1;
+						list.add(new Tile(tile.getX(), tile.getY()+1));
+						iterate = list.iterator();
+				}
+			}
+			//fill up
+			if((tile.getY()-1 >= 0) && (dMap[tile.getX()][tile.getY()-1] != 100)){
+				if(dMap[tile.getX()][tile.getY()-1] == -1 || 
+				   dMap[tile.getX()][tile.getY()-1] > dMap[tile.getX()][tile.getY()]+1){
+					 dMap[tile.getX()][tile.getY()-1] = dMap[tile.getX()][tile.getY()]+1;
+				     list.add(new Tile(tile.getX(), tile.getY()-1));
+				     iterate = list.iterator();
+				}
+			}
+		}//while iterate end
+
+		int bestMove;
+		boolean tUp, tDown, tLeft, tRight;
+		tUp = tDown = tLeft = tRight = false;
+		
+		if (eg.player.collides(eg.oldMan) == null){ //check for lowest value tile around old man jenkins
+			
+			bestMove = 300; //set to some ridiculously high number so it will have to pick one of the 4 directions
+			
+			if(xPosOldMan+1 != 21){
+				if(bestMove >= dMap[xPosOldMan+1][yPosOldMan])//check right
+				{
+					bestMove = dMap[xPosOldMan+1][yPosOldMan];
+					tUp = tDown = tLeft = false;
+					tRight=true;
+				}
+			}
+			
+			if(xPosOldMan-1 > 0){
+				if(bestMove >= dMap[xPosOldMan-1][yPosOldMan])//check left
+				{
+					bestMove = dMap[xPosOldMan-1][yPosOldMan];
+					tUp = tDown = tRight = false;
+					tLeft=true;
+				}
+			}
+			
+			if(yPosOldMan-1 > 0){
+				if(bestMove >= dMap[xPosOldMan][yPosOldMan-1])//check up
+				{
+					bestMove = dMap[xPosOldMan][yPosOldMan-1];
+					tDown = tLeft = tRight = false;
+					tUp=true;
+				}
+			}
+			
+			if(yPosOldMan+1 != 22){
+				if(bestMove >= dMap[xPosOldMan][yPosOldMan+1])//check down
+				{
+					bestMove = dMap[xPosOldMan][yPosOldMan+1];
+					tLeft = tUp = tRight = false;
+					tDown=true;
+				}
+			}
+			
+			if (tUp == true)
+				eg.oldMan.setPosition(eg.oldMan.getX(), eg.oldMan.getY()-1); //move up
+			if (tDown == true)
+				eg.oldMan.setPosition(eg.oldMan.getX(), eg.oldMan.getY()+1); //move down
+			if (tLeft == true)
+				eg.oldMan.setPosition(eg.oldMan.getX()-1, eg.oldMan.getY()); //move left
+			if (tRight == true)
+				eg.oldMan.setPosition(eg.oldMan.getX()+1, eg.oldMan.getY()); //move right
+			
+		}
+		else 
+		{	
+				Lives--;
+				eg.player.setPosition(656, 688);
+				eg.oldMan.setPosition(16, 496);
+				eg.hasPlane = false;
+		}
+		
+		//DEBUGGING************
+//		System.out.println("");
+//		System.out.println("");
+//		System.out.println("dijkstras map");
+//
+//		for(int j=0;j<22;j++){
+//			for(int i=0;i<21;i++){
+//				System.out.print(dMap[i][j] + "   ");
+//			}
+//			System.out.println("");
+//		}
+//		System.out.println("");
+//		System.out.println("");
+//		System.out.println("");
+		//************************
+
 		
 		
 		
-		
-		
-		
+		//win state activation and game over state activation-----------
 		if ((xPos == 11) && (yPos ==0)){
 			eg.hasPlane = true;
-			System.out.println("hasplane");
+			//System.out.println("hasplane");
 		}
 		if((xPos == 20) && (yPos == 21) && (eg.hasPlane == true)) {
 			eg.WinState = true;
-			System.out.println("winstate");
+			//System.out.println("winstate");
 		}
 		
 		if (Lives == 0 || eg.WinState == true) {		
 			game.enterState(EscapeGame.GAMEOVERSTATE);
 		}
-		
 		
 		
 		//update cat position-----------------
@@ -262,5 +442,4 @@ class PlayingState extends BasicGameState {
 	public int getID() {
 		return EscapeGame.PLAYINGSTATE;
 	}
-	
 }

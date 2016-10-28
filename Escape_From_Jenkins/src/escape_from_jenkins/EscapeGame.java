@@ -24,6 +24,7 @@ public class EscapeGame extends StateBasedGame {
 		
 		boolean WinState = false;
 		boolean hasPlane = false;
+		boolean releaseScruffy = false;
 
 		public static final int STARTUPSTATE = 0;
 		public static final int PLAYINGSTATE = 1;
@@ -35,15 +36,15 @@ public class EscapeGame extends StateBasedGame {
 		public static final String GAMEOVER_BANNER_RSC = "escape/resource/gameOverBanner.png";
 		public static final String WIN_BANNER = "escape/resource/levelClear.png";
 		public static final String STARTUP_BANNER_RSC = "escape/resource/startUpBanner.png";
-
-
+		public static final String OLDMAN_IMG= "escape/resource/OldManJenkins.png";
 
 		public final int ScreenWidth;
 		public final int ScreenHeight;
-		//Tile[][] tileSet;
+		
 		Cat cat[];
 		Log log[];
 		Player player;
+		OldMan oldMan;
 		
 
 		public EscapeGame(String title, int width, int height) {
@@ -51,8 +52,7 @@ public class EscapeGame extends StateBasedGame {
 			ScreenHeight = height;
 			ScreenWidth = width;
 
-			Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
-					
+			Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);		
 		}
 		
 		public int getScreenHeight() {
@@ -76,7 +76,7 @@ public class EscapeGame extends StateBasedGame {
 			ResourceManager.loadImage(WIN_BANNER);
 			ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
 			ResourceManager.loadImage(STARTUP_BANNER_RSC);
-
+			ResourceManager.loadImage(OLDMAN_IMG);
 
 
 			j=0;
@@ -84,7 +84,8 @@ public class EscapeGame extends StateBasedGame {
 			cat = new Cat[4];
 			log = new Log[9];
 			
-			player = new Player(656, 688, 0f, 0f);
+			player = new Player(656, 688);
+			oldMan = new OldMan(16, 496, 0f, 0f);
 			
 			//create cats
 			for (i=0; i<4; i++)
