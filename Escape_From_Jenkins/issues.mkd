@@ -10,9 +10,11 @@ Resolved issues
 [8] - collisions with the cats
 [9] - create old man jenkins
 [10] - create scruffy
+[11] - log riding and collision with water
 
 
 Open Issues
 
-[11] - log riding and collision with water
-[12] - add level 2
+[12] - add level 2 (if i have time)
+ 	- note( 10/28/16) 
+ 	 	Nope. Didnt have time.

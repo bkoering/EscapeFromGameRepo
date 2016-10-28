@@ -93,6 +93,11 @@ class StartUpState extends BasicGameState {
 		eg.WinState=false;
 		eg.hasPlane=false;
 		eg.releaseScruffy = false;
+		eg.startTime = System.currentTimeMillis();
+		eg.scruffy.setPosition(16, 496);
+		eg.oldMan.setPosition(16, 496);
+
+
 
 
 		if (input.isKeyDown(Input.KEY_SPACE)){
