@@ -29,6 +29,16 @@ class PlayingState extends BasicGameState {
 	TiledMap map;
 	Tile tile;
 
+	long startTime = System.currentTimeMillis();
+	long currentTime;
+	long tDelta;
+	long countDownToScruffy;
+	
+//	long tEnd = System.currentTimeMillis();
+//	long tDelta = currentTime - startTime;
+//	double elapsedSeconds = tDelta / 1000.0;
+	//countDownToScruffy = 30 - (tDelta / 1000.0);
+	
 	int[][] mazeCollision = new int[21][22];
 	int[][] gnomeCollision = new int[21][22];
 	int[][] dMap = new int[21][22];
@@ -43,6 +53,9 @@ class PlayingState extends BasicGameState {
 		catch (SlickException e){
 			System.out.println("Slick Exception Error: map failed to load");
 		}
+		
+		startTime = System.currentTimeMillis();
+		countDownToScruffy = (long) (30.0 - (tDelta / 1000.0));
 		
 		//grab map layers
 		Base = map.getLayerIndex("Base");
@@ -126,6 +139,7 @@ class PlayingState extends BasicGameState {
 		xPosOldMan = (int) Math.floor(eg.oldMan.getX()/32);
 		yPosOldMan = (int) Math.floor(eg.oldMan.getY()/32);
 		
+		tDelta = currentTime - startTime;
 		
 		//moving the kid-----------------------
 		if ((input.isKeyDown(Input.KEY_LEFT)) && !(input.isKeyDown(Input.KEY_RIGHT)) &&

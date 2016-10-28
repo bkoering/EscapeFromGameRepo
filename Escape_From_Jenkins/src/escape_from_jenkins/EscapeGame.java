@@ -24,6 +24,7 @@ public class EscapeGame extends StateBasedGame {
 		
 		boolean WinState = false;
 		boolean hasPlane = false;
+		boolean releaseScruffy = false;
 
 		public static final int STARTUPSTATE = 0;
 		public static final int PLAYINGSTATE = 1;
