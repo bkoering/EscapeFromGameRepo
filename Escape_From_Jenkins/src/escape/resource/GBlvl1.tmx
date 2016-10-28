@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="22" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32" tilecount="25" columns="5">
+  <image source="grass.png" width="185" height="185"/>
+ </tileset>
+ <tileset firstgid="26" name="gnome" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="gnome.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="27" name="water" tilewidth="32" tileheight="32" tilecount="25" columns="5">
+  <image source="water.png" width="185" height="185"/>
+ </tileset>
+ <tileset firstgid="52" name="hvert" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="hvert.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="56" name="hhoroz" tilewidth="32" tileheight="32" tilecount="6" columns="2">
+  <image source="hhoroz.png" width="64" height="96"/>
+ </tileset>
+ <tileset firstgid="62" name="hcorner" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="hedge corners.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="66" name="plane" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="Plane.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="67" name="mat" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="WelcomeMat.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="68" name="start" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="exitZone.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="69" name="red" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="rb.png" width="32" height="32"/>
+ </tileset>
+ <layer name="Base" width="21" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NlYGDgB2JWJCyBxicGMwIxExAzAzE3mhnGSFgLh35kNdJQMTYgZoeyVaFyakCsjqYe2Wxs4uRgZLN0gFgXiPVwqFUAYkUgVkLTB/KHDBDLArEmVEwfiA2A2BCIjQi4QRmIVciIC2IxBw3NpsQOWDqitdsowbxU9Del8cBNpTjBJU7Ir9TwAyl2DXbMgcbGFzYg/1IjrVMSR4TcR+8wwyVOrFvoUa4BAGp1P5U4BwAA
+  </data>
+ </layer>
+ <layer name="gnome" width="21" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMAgiQGmgHjIIBBYMx/ol1Ez3dDgCbH90XOAcAAA==
+  </data>
+ </layer>
+ <layer name="maze" width="21" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2S3Q6AIAiFeShjWS3t/V+q3GAhQ6yrLvLbmEyOP3gEGPyR/Yr5imTMldhErnWrqnE9UH0SWplrglMrIIUH3yXSeHT04cGeb0Goe5Hvk8wVtTYaWq93hNsj9ql1jtzD693youUPqjyLeyw0X/qyvMhCwzr933oeDgZfcwJ0Rgl+OAcAAA==
+  </data>
+ </layer>
+ <layer name="plane" width="21" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgIA44EaluFIyCUTAKRsEoGM4AAGCZptI4BwAA
+  </data>
+ </layer>
+ <layer name="startZones" width="21" height="22">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMguEPnAfaAaNgWAAXIAYAFa6u9jgHAAA=
+  </data>
+ </layer>
+ <layer name="waterCollision" width="21" height="22" opacity="0.54">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoD1wRcPkqEGXH0l4FIyCUTAKRsHgAQDyph39OAcAAA==
+  </data>
+ </layer>
+</map>
