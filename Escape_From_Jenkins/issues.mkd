@@ -8,10 +8,11 @@ Resolved issues
 [6] - grab the plane (plane will disappear) add win state, add game over state
 [7] - collisions with gnomes, lives counter active
 [8] - collisions with the cats
+[9] - create old man jenkins
+[10] - create scruffy
+
 
 Open Issues
 
-[9] - create old man jenkins
-[10] - create scruffy
 [11] - log riding and collision with water
 [12] - add level 2

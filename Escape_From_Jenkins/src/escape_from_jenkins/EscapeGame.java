@@ -37,6 +37,7 @@ public class EscapeGame extends StateBasedGame {
 		public static final String WIN_BANNER = "escape/resource/levelClear.png";
 		public static final String STARTUP_BANNER_RSC = "escape/resource/startUpBanner.png";
 		public static final String OLDMAN_IMG= "escape/resource/OldManJenkins.png";
+		public static final String SCRUFFY_IMG= "escape/resource/Scruffy.png";
 
 		public final int ScreenWidth;
 		public final int ScreenHeight;
@@ -45,6 +46,7 @@ public class EscapeGame extends StateBasedGame {
 		Log log[];
 		Player player;
 		OldMan oldMan;
+		Scruffy scruffy;
 		
 
 		public EscapeGame(String title, int width, int height) {
@@ -77,6 +79,8 @@ public class EscapeGame extends StateBasedGame {
 			ResourceManager.loadImage(GAMEOVER_BANNER_RSC);
 			ResourceManager.loadImage(STARTUP_BANNER_RSC);
 			ResourceManager.loadImage(OLDMAN_IMG);
+			ResourceManager.loadImage(SCRUFFY_IMG);
+
 
 
 			j=0;
@@ -86,6 +90,8 @@ public class EscapeGame extends StateBasedGame {
 			
 			player = new Player(656, 688);
 			oldMan = new OldMan(16, 496, 0f, 0f);
+			scruffy = new Scruffy(16, 496, 0f, 0f);
+
 			
 			//create cats
 			for (i=0; i<4; i++)

@@ -92,6 +92,7 @@ class StartUpState extends BasicGameState {
 		EscapeGame eg = (EscapeGame)game;
 		eg.WinState=false;
 		eg.hasPlane=false;
+		eg.releaseScruffy = false;
 
 
 		if (input.isKeyDown(Input.KEY_SPACE)){
