@@ -83,7 +83,7 @@ public class EscapeGame extends StateBasedGame {
 			cat = new Cat[4];
 			log = new Log[9];
 			
-			player = new Player(656, 688, 0f, 0f);
+			player = new Player(656, 688);
 			oldMan = new OldMan(16, 496, 0f, 0f);
 			
 			//create cats

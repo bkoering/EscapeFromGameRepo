@@ -26,23 +26,10 @@ import jig.Vector;
 		return velocity;
 	}
 
-
-	public void bounce(float surfaceTangent) {
-		countdown = 500;
-		velocity = velocity.bounce(surfaceTangent);
-	}
-
-
 	public void update(final int delta) {
 		translate(velocity.scale(delta));
 		if (countdown > 0) {
 			countdown -= delta;
-			if (countdown <= 0) {
-				addImageWithBoundingBox(ResourceManager
-						.getImage(EscapeGame.OLDMAN_IMG));
-				removeImage(ResourceManager
-						.getImage(EscapeGame.OLDMAN_IMG));
-			}
 		}
 	}
 }
