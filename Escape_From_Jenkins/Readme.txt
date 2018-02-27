@@ -1,7 +1,6 @@
 README
 
 Escape From Old Man Jenkins
-Cs 447
 Brianne Koering
 
 

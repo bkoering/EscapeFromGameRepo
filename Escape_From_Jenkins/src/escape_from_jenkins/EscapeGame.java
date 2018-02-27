@@ -26,10 +26,12 @@ public class EscapeGame extends StateBasedGame {
 		boolean hasPlane = false;
 		boolean releaseScruffy = false;
 
+		//set game state
 		public static final int STARTUPSTATE = 0;
 		public static final int PLAYINGSTATE = 1;
 		public static final int GAMEOVERSTATE = 2;
 		
+		//load resources
 		public static final String CAT_IMG = "escape/resource/cats.png";
 		public static final String LOG_IMG = "escape/resource/log.png";
 		public static final String PLAYER_IMG= "escape/resource/kid.png";
@@ -90,6 +92,7 @@ public class EscapeGame extends StateBasedGame {
 			cat = new Cat[4];
 			log = new Log[9];
 			
+			//starting locations
 			player = new Player(656, 688, 0f, 0f);
 			oldMan = new OldMan(16, 496, 0f, 0f);
 			scruffy = new Scruffy(16, 496, 0f, 0f);
