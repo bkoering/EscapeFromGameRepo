@@ -18,7 +18,7 @@ Old Man Jenkins and Scruffy won't cross the water line.
 If you collide with Old Man Jenkins, Scruffy, a gnome or a cat you lose a life and go back to start. 
 
 
-NOTE :::::::::::::::::::::
+BUG NOTE :::::::::::::::::::::
 If you are colliding with two logs at once you will take on the velocity and DIRECTION of both. Which 
 means you will stop moving all together. Manually move with the log at that point. 
 ::::::::::::::::::::::::::
